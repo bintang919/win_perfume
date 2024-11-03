@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f3316db237.js" crossorigin="anonymous"></script>
     <style>
         body {
@@ -505,6 +506,30 @@
             -moz-box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75); 
             border-radius: 8px;
         }
+
+        .search-bar {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .search-bar .select2-container {
+            width: 100% !important;
+        }
+        .search-bar i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 1.2em;
+        }
+        .select2-results__option img {
+            height: 30px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
     </style>
 </head>
 <body>
@@ -514,7 +539,7 @@
         <img src="{{asset('assets/img/logo.png')}}" alt="Perfume Store Logo"  style="max-width: 120px; max-height: 120px;">
     </div>
     <div class="search-bar">
-        <input type="text" placeholder="    Search for a perfume by name or brand">
+        <select id="search-perfume" style="width: 100%;" placeholder="Search for a perfume by name or brand"></select>
         <i class="fas fa-search"></i>
     </div>
 </header>
@@ -598,7 +623,46 @@
 <!-- Slick Carousel JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    $(document).ready(function() {
+        function formatOption(option) {
+            if (!option.id) {
+                return option.text;
+            }
+
+            let image = option.image ? `<img src="${option.image}" alt="${option.text}" style="height: 30px; margin-right: 10px;" />` : '';
+            
+            return $(`
+                <div style="display: flex; align-items: center; padding: 5px;">
+                    ${image}
+                    <div>
+                        <div style="font-weight: bold; font-size: 1em;">${option.text}</div>
+                        <div style="color: #666; font-size: 0.8em;">${option.brand}</div>
+                    </div>
+                </div>
+            `);
+        }
+
+        $("#search-perfume").select2({
+            ajax: {
+                url: '/get-products-by-category',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                }
+            },
+            templateResult: formatOption,
+            templateSelection: function(option) {
+                // Menampilkan hanya nama produk (option.text) di input ketika dipilih
+                return option.text || option.id;
+            },
+            placeholder: 'Search for a perfume by name or category',
+            escapeMarkup: function (markup) { return markup; }
+        });
+    });
     $(document).ready(function(){
         $('.hero-slider').slick({
             dots: true,

@@ -21,4 +21,32 @@ class LandingPageController extends Controller
         });
         return view('landing_page',['product' => $product,'categories' => $categories,'banner' => $banner]);
     }
+
+    public function getProduct(Request $request)
+    {
+        $categories = Category::where('is_deleted', 0)
+        ->where('is_active', 1)
+        ->orderBy('categories_name')
+        ->with(['products' => function ($query) {
+            $query->where('is_deleted', 0)
+                ->where('is_active', 1)
+                ->orderBy('product_name');
+        }])
+        ->get()
+        ->map(function ($category) {
+            return [
+                'text' => $category->categories_name,
+                'children' => $category->products->map(function ($product) {
+                    return [
+                        'id' => 'prod-' . $product->id,
+                        'text' => $product->product_name,
+                        'image' => asset('storage/'.$product->product_image),
+                        'brand' => $product->category->categories_name,
+                    ];
+                })->toArray()
+            ];
+        });
+
+        return response()->json($categories);
+    }
 }

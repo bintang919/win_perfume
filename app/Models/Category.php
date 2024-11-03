@@ -17,4 +17,9 @@ class Category extends Model
         'is_active',
         'is_deleted',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id', 'categories_id');
+    }
 }

@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/', [LandingPageController::class, 'index']);
+Route::get('/get-products-by-category', [LandingPageController::class, 'getProduct']);
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
