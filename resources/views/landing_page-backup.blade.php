@@ -10,10 +10,30 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f3316db237.js" crossorigin="anonymous"></script>
     <style>
+        @font-face {
+            font-family: 'Sequel Sans';
+            src: url('/fonts/SequelSans-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Sequel Sans';
+            src: url('/fonts/SequelSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Sequel Sans';
+            src: url('/fonts/Sequel Sans Light Body.ttf') format('truetype');
+            font-weight: light;
+            font-style: normal;
+        }
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Sequel Sans', sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
@@ -29,21 +49,6 @@
             width: 100%;
             z-index: 1000;
         }
-        header .logo img {
-            max-height: 60px;
-        }
-        header .search-bar {
-            flex-grow: 1;
-            margin-left: 60%;
-            position: relative;
-        }
-        header .search-bar input {
-            width: 60%;
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
         /* Hero Section with Slick Carousel */
         .hero {
             position: relative;
@@ -53,7 +58,7 @@
             margin-top: center;
         }
         .hero-slider {
-            width: 80%;
+            width: 90%;
             margin: 0 auto;
             margin-top: 50px;
         }
@@ -104,7 +109,7 @@
         }
         .product-grid {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: 565px 565px 565px;
             flex-wrap: wrap;
             gap: 8px;
             /* justify-content: space-between; */
@@ -127,7 +132,7 @@
         }
         .product-item h1 {
             margin-left: 18px;
-            font-size: 18px;
+            font-size: 34px;
             margin-bottom: 10px;
             margin-top: -15px;
         }
@@ -158,7 +163,6 @@
         .alphabet-section {
             text-align: center;
             padding: 40px;
-            background-color: #f8f8f8;
         }
         .alphabet-section span {
             display: inline-block;
@@ -242,28 +246,6 @@
         .alphabet {
             text-decoration: none; 
             color: #707070;
-        } 
-        .search-bar {
-            flex-grow: 1;
-            margin-left: 60%;
-            position: relative;
-        }
-
-        .search-bar input[type="text"] {
-            width: 60%;
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        .search-bar .fa-search {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888; /* Warna ikon */
-            cursor: pointer;
         }
         .slick-prev:before, .slick-next:before {
             color: #000000 !important;
@@ -493,13 +475,165 @@
 
         .alphabet {
             text-decoration: none; 
-            color: black; 
+            color: gray;
             cursor: pointer;
         }
         .alphabet.active {
-            color: gray;
+            text-decoration: underline; 
+        }
+        .modal img {
+            box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75); 
+            border-radius: 8px;
         }
 
+        .search-bar {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .search-bar .select2-container {
+            width: 100% !important;
+        }
+        .search-bar i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 1.2em;
+        }
+        header .logo img {
+            max-height: 60px;
+        }
+        header .search-bar {
+            flex-grow: 1;
+            margin-left: 60%;
+            position: relative;
+        }
+        header .search-bar input {
+            width: 60%;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .search-bar {
+            flex-grow: 1;
+            margin-left: 60%;
+            position: relative;
+        }
+
+        .search-bar input[type="text"] {
+            width: 60%;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .search-bar .fa-search {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888; /* Warna ikon */
+            cursor: pointer;
+        }
+        .select2-results__option img {
+            height: 30px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: 200px 200px 200px 200px 200px 200px 200px 200px;
+            flex-wrap: wrap;
+            margin: auto;
+            gap: 0 1px;
+            text-align: left;
+        }
+        .list-grid {
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+        .img-product {
+            max-width: 100px; 
+            max-height: 143px;
+        }
+        @media (max-width: 1080px) {
+            header {
+                align-items: flex-start;
+            }
+
+            header .search-bar {
+                flex-grow: 1;
+                margin-left: 20%;
+                position: relative;
+            }
+
+            .search-bar select {
+                font-size: 14px;
+            }
+            
+            .products h2 {
+                text-align: center;
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(130px, 1fr));
+            }
+
+            .alphabet-section .list-grid {
+                flex-direction: column;
+            }
+
+            .alphabet-grid {
+                flex: 1 0 100%;
+            }
+
+            .alphabet-grid p {
+                font-size: 12px;
+            }
+
+            .product-item {
+                height: 175px;
+            }
+            .product-item img {
+                max-width: 65px;
+                margin-bottom: 15px;
+            }
+            .product-item h1 {
+                margin-left: 20px;
+                font-size: 15px;
+            }
+
+            .product-item p {
+                margin-bottom: 15px;
+                font-size: 10px;
+            }
+
+            .img-product {
+                max-height: 110px;
+            }
+            .shop-links {
+                padding: 0px;
+                display: flex;
+                justify-content: center;
+            }
+            .shop-links a {
+                display: inline-block;
+                padding: 0px 0px;
+                border-radius: 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -509,7 +643,7 @@
         <img src="{{asset('assets/img/logo.png')}}" alt="Perfume Store Logo"  style="max-width: 120px; max-height: 120px;">
     </div>
     <div class="search-bar">
-        <input type="text" placeholder="    Search for a perfume by name or brand">
+        <select id="search-perfume" style="width: 100%;" placeholder="Search for a perfume by name or brand"></select>
         <i class="fas fa-search"></i>
     </div>
 </header>
@@ -530,15 +664,13 @@
     <div class="product-grid">
         @foreach ($product as $key => $dt)
             <div class="not">
-                <div class="product-item" style="border-radius: 3px; border-color : #c5bbbb;box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75);
--webkit-box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75);
--moz-box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75)">
+                <div class="product-item" style="border-radius: 6px; border-color : #c5bbbb;">
                     <div class="imagine">
-                        <img src="{{ asset('storage/' . $dt->product_image) }}"  style="max-width: 100px; max-height: 143px;" alt="{{ $dt->product_name }}">
+                        <img src="{{ asset('storage/' . $dt->product_image) }}" class="img-product" alt="{{ $dt->product_name }}">
                     </div>
                     <div>
                         <a  onclick="showSlides({{ $key+1 }})" style="cursor: pointer;"><p>{{ $dt->Category->categories_name }}</p>
-                        <h1 style="font-size: 34px;">{{ $dt->product_name }}</h1></a>
+                        <h1>{{ $dt->product_name }}</h1></a>
                     <p style="font-size: 13px;">SHOP NOW AT :</p>
                     <div class="shop-links">
                         <a href="{{ $dt->shopee_url }}" target="_blank"><img src="{{ asset('assets/img/ICON SHOPEE.png') }}" style="margin-top: 5px;"></a>
@@ -551,13 +683,13 @@
             <div id="myModal{{ $key+1 }}" class="modal">
                 <div class="modal-content">
                     <div class="mySlides{{ $key+1 }}" onclick="closeModal({{ $key+1 }})">
-                        <img src="{{ asset('storage/' . $dt->product_detail_image) }}"  style="margin-top: 235px;margin-left: 515px !important;width:45%;"></img>
+                        <img src="{{ asset('storage/' . $dt->product_detail_image) }}"  style="margin-top: 235px;margin-left: 515px !important;width:45%; "></img>
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
-    <a href="#" id="loadMore" style="font-family: Arial, sans-serif;font-size: 28px;margin-top: 20px;font-weight: normal;color: #777;">LOAD MORE FRAGRANCES</a>
+    <a href="#" id="loadMore" style="font-family: Arial, sans-serif;font-size: 28px;margin-top: 20px;font-weight: normal;color: #656263;">LOAD MORE FRAGRANCES</a>
 </section>
 
 <section class="alphabet-section">
@@ -566,24 +698,20 @@
         <table class="flexible-table" style="text-align: left; font-weight: bold; font-size: 30px;">
             <tr>
                 @foreach (range('A', 'Z') as $letter)
-                    <td><a href="javascript:void(0)" class="alphabet" onclick="filterByLetter('{{ $letter }}', this)">{{ $letter }}</a></td>
+                    <td style="width : 30px;"><a href="javascript:void(0)" class="alphabet alphabet-filter" onclick="filterByLetter('{{ $letter }}', this)">{{ $letter }}</a></td>
                 @endforeach
             </tr>
         </table>
     </div>
-
-    <!-- Menampilkan daftar kategori -->
-    <div class="list-category">
-        <table class="flexible-table">
-            @foreach ($categories as $letter => $items)
-                <tr class="category-row" data-letter="{{ $letter }}">
-                    <td rowspan="2" class="space-table">{{ $letter }}</td>
-                    @foreach ($items as $category)
-                        <td style="vertical-align: bottom;">{{ $category->categories_name }}</td>
-                    @endforeach
-                </tr>
-            @endforeach
-        </table>
+    <div class="list-grid">
+        @foreach ($categories as $letter => $items)
+            <div class="alphabet-grid" data-letter="{{ $letter }}">
+                <p style="font-size: 80px; margin: 0;">{{ $letter }}</p>
+                @foreach ($items as $category)
+                    <p style="font-size: 14px; color: #a5a3a4; align-content: end;">{{ ucwords(strtolower($category->categories_name)) }}</p>
+                @endforeach
+            </div>
+        @endforeach
     </div>
 </section>
 
@@ -595,7 +723,52 @@
 <!-- Slick Carousel JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    $(document).ready(function() {
+        let url = new URL(window.location.href);
+        url.searchParams.delete('params');
+        window.history.replaceState({}, document.title, url);
+        function formatOption(option) {
+            if (!option.id) {
+                return option.text;
+            }
+
+            let image = option.image ? `<img src="${option.image}" alt="${option.text}" style="height: 30px; margin-right: 10px;" />` : '';
+            
+            return $(`
+                <div style="display: flex; align-items: center; padding: 5px;">
+                    ${image}
+                    <div>
+                        <div style="font-weight: bold; font-size: 1em;">${option.text}</div>
+                        <div style="color: #666; font-size: 0.8em;">${option.brand}</div>
+                    </div>
+                </div>
+            `);
+        }
+
+        $("#search-perfume").select2({
+            ajax: {
+                url: '/get-products-by-category',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                }
+            },
+            templateResult: formatOption,
+            templateSelection: function(option) {
+                // Menampilkan hanya nama produk (option.text) di input ketika dipilih
+                return option.text || option.id;
+            },
+            placeholder: 'Search for a perfume by name or category',
+            escapeMarkup: function (markup) { return markup; }
+        }).on('select2:select', function (e) {
+            var selectedValue = e.params.data.id;
+            window.location.href = '/?params=' + selectedValue;
+        });
+    });
     $(document).ready(function(){
         $('.hero-slider').slick({
             dots: true,
@@ -609,12 +782,19 @@
             nextArrow: '<button type="button" class="slick-next">Next</button>'
         });
     });
-    
-</script>
-<script>
+
+    $(document).ready(function(){
+        var rows = document.querySelectorAll('.category-row');
+        rows.forEach(function(row) {
+            row.style.display = 'none';
+        });
+        var filter = $('.alphabet-filter')
+        filterByLetter('A', filter)
+    });
+
     function filterByLetter(letter, element) {
         // Filter rows
-        var rows = document.querySelectorAll('.category-row');
+        var rows = document.querySelectorAll('.alphabet-grid');
         rows.forEach(function(row) {
             if (row.getAttribute('data-letter') === letter) {
                 row.style.display = '';
@@ -630,22 +810,16 @@
         });
         element.classList.add('active');
     }
-</script>
-<script>
     $(document).ready(function(){
-  $(".not").slice(0, 9).show();
-  $("#loadMore").on("click", function(e){
-    e.preventDefault();
-    $(".not:hidden").slice(0, 9).slideDown();
-    if($(".not:hidden").length == 0) {
-      $("#loadMore").text("No Content").addClass("noContent");
-    }
-  });
-  
-})
-
-</script>
-<script>
+        $(".not").slice(0, 9).show();
+        $("#loadMore").on("click", function(e){
+            e.preventDefault();
+            $(".not:hidden").slice(0, 9).slideDown();
+            if($(".not:hidden").length == 0) {
+                $("#loadMore").text("No Content").addClass("noContent");
+            }
+        });
+    })
     function closeModal(n) {
         var modal = $("#myModal"+n);
         var slides = $("#mySlides"+n);

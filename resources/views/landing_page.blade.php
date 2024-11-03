@@ -49,21 +49,6 @@
             width: 100%;
             z-index: 1000;
         }
-        header .logo img {
-            max-height: 60px;
-        }
-        header .search-bar {
-            flex-grow: 1;
-            margin-left: 60%;
-            position: relative;
-        }
-        header .search-bar input {
-            width: 60%;
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
         /* Hero Section with Slick Carousel */
         .hero {
             position: relative;
@@ -147,7 +132,7 @@
         }
         .product-item h1 {
             margin-left: 18px;
-            font-size: 18px;
+            font-size: 34px;
             margin-bottom: 10px;
             margin-top: -15px;
         }
@@ -261,28 +246,6 @@
         .alphabet {
             text-decoration: none; 
             color: #707070;
-        } 
-        .search-bar {
-            flex-grow: 1;
-            margin-left: 60%;
-            position: relative;
-        }
-
-        .search-bar input[type="text"] {
-            width: 60%;
-            padding: 10px 20px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        .search-bar .fa-search {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888; /* Warna ikon */
-            cursor: pointer;
         }
         .slick-prev:before, .slick-next:before {
             color: #000000 !important;
@@ -542,6 +505,43 @@
             color: #888;
             font-size: 1.2em;
         }
+        header .logo img {
+            max-height: 60px;
+        }
+        header .search-bar {
+            flex-grow: 1;
+            margin-left: 60%;
+            position: relative;
+        }
+        header .search-bar input {
+            width: 60%;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .search-bar {
+            flex-grow: 1;
+            margin-left: 60%;
+            position: relative;
+        }
+
+        .search-bar input[type="text"] {
+            width: 60%;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .search-bar .fa-search {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888; /* Warna ikon */
+            cursor: pointer;
+        }
         .select2-results__option img {
             height: 30px;
             margin-right: 10px;
@@ -561,6 +561,10 @@
             margin-left: auto;
             margin-right: auto;
             
+        }
+        .img-product {
+            max-width: 100px; 
+            max-height: 143px;
         }
     </style>
 </head>
@@ -594,11 +598,11 @@
             <div class="not">
                 <div class="product-item" style="border-radius: 6px; border-color : #c5bbbb;">
                     <div class="imagine">
-                        <img src="{{ asset('storage/' . $dt->product_image) }}"  style="max-width: 100px; max-height: 143px;" alt="{{ $dt->product_name }}">
+                        <img src="{{ asset('storage/' . $dt->product_image) }}" class="img-product" alt="{{ $dt->product_name }}">
                     </div>
                     <div>
                         <a  onclick="showSlides({{ $key+1 }})" style="cursor: pointer;"><p>{{ $dt->Category->categories_name }}</p>
-                        <h1 style="font-size: 34px;">{{ $dt->product_name }}</h1></a>
+                        <h1>{{ $dt->product_name }}</h1></a>
                     <p style="font-size: 13px;">SHOP NOW AT :</p>
                     <div class="shop-links">
                         <a href="{{ $dt->shopee_url }}" target="_blank"><img src="{{ asset('assets/img/ICON SHOPEE.png') }}" style="margin-top: 5px;"></a>
