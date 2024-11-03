@@ -41,14 +41,8 @@
 		<!-- start: page -->
 		<section class="body-sign">
 			<div class="center-sign">
-				<a href="/" class="logo float-left">
-					<img src="{{asset('assets/img/logo.png')}}" height="120" width="120" alt="Porto Admin" />
-				</a>
-
 				<div class="panel card-sign">
-					<div class="card-title-sign mt-3 text-end">
-						<h2 class="title text-uppercase font-weight-bold m-0"><i class="bx bx-user-circle me-1 text-6 position-relative top-5"></i> Sign In</h2>
-					</div>
+					<img src="{{asset('assets/img/logo.png')}}" height="120" width="220" alt="Porto Admin" style="margin-left: 122px; margin-bottom: 20px;"/>
 					<div class="card-body">
 						<form method="POST" action="{{ route('login') }}">
 							@csrf
