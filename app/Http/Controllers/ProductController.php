@@ -48,11 +48,11 @@ class ProductController extends Controller
         $data['is_deleted'] = false; // Set default is_deleted ke false
 
         if ($request->hasFile('product_image')) {
-            $data['product_image'] = $request->file('product_image')->store('images', 'public');
+            $data['product_image'] = $this->convertImageToWebP($request->file('product_image'));
         }
 
         if ($request->hasFile('product_detail_image')) {
-            $data['product_detail_image'] = $request->file('product_detail_image')->store('images', 'public');
+            $data['product_detail_image'] = $this->convertImageToWebP($request->file('product_detail_image'));
         }
 
         Product::create($data);
@@ -123,5 +123,41 @@ class ProductController extends Controller
         }
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    private function convertImageToWebP($image)
+    {
+        $originalFileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+        $outputDirectory = 'images/';
+        $webPFileName = $originalFileName . '.webp';
+        $fieldPath = 'images/' . $webPFileName;
+        $imagePath = $image->getRealPath();
+        $img = null;
+        $mimeType = $image->getClientMimeType();
+    
+        switch ($mimeType) {
+            case 'image/jpeg':
+                $img = imagecreatefromjpeg($imagePath);
+                break;
+            case 'image/png':
+                $img = imagecreatefrompng($imagePath);
+                break;
+            case 'image/gif':
+                $img = imagecreatefromgif($imagePath);
+                break;
+            default:
+                throw new \Exception('Unsupported image type: ' . $mimeType);
+        }
+        ob_start();
+        imagewebp($img);
+        $webPImageData = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($img);
+    
+        Storage::disk('public')->put($outputDirectory . $webPFileName, $webPImageData);
+    
+        unlink($imagePath);
+
+        return $fieldPath;
     }
 }
