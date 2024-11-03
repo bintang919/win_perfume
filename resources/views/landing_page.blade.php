@@ -13,8 +13,27 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/f3316db237.js" crossorigin="anonymous"></script>
     <style>
+        @font-face {
+            font-family: 'Sequel Sans';
+            src: url('/fonts/SequelSans-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Sequel Sans';
+            src: url('/fonts/SequelSans-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Sequel Sans';
+            src: url('/fonts/Sequel Sans Light Body.ttf') format('truetype');
+            font-weight: light;
+            font-style: normal;
+        }
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Sequel Sans', sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
@@ -105,7 +124,7 @@
         }
         .product-grid {
             display: grid;
-            grid-template-columns: auto auto auto;
+            grid-template-columns: 565px 565px 565px;
             flex-wrap: wrap;
             gap: 8px;
             /* justify-content: space-between; */
@@ -159,7 +178,6 @@
         .alphabet-section {
             text-align: center;
             padding: 40px;
-            background-color: #f8f8f8;
         }
         .alphabet-section span {
             display: inline-block;
@@ -494,11 +512,11 @@
 
         .alphabet {
             text-decoration: none; 
-            color: black; 
+            color: gray;
             cursor: pointer;
         }
         .alphabet.active {
-            color: gray;
+            text-decoration: underline; 
         }
         .modal img {
             box-shadow: 10px 19px 44px 1px rgba(0,0,0,0.75);
@@ -530,6 +548,20 @@
             vertical-align: middle;
         }
 
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: 200px 200px 200px 200px 200px 200px 200px 200px;
+            flex-wrap: wrap;
+            margin: auto;
+            gap: 0 1px;
+            text-align: left;
+        }
+        .list-grid {
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
     </style>
 </head>
 <body>
@@ -560,7 +592,7 @@
     <div class="product-grid">
         @foreach ($product as $key => $dt)
             <div class="not">
-                <div class="product-item" style="border-radius: 4px; border-color : #c5bbbb;">
+                <div class="product-item" style="border-radius: 6px; border-color : #c5bbbb;">
                     <div class="imagine">
                         <img src="{{ asset('storage/' . $dt->product_image) }}"  style="max-width: 100px; max-height: 143px;" alt="{{ $dt->product_name }}">
                     </div>
@@ -585,7 +617,7 @@
             </div>
         @endforeach
     </div>
-    <a href="#" id="loadMore" style="font-family: Arial, sans-serif;font-size: 28px;margin-top: 20px;font-weight: normal;color: #777;">LOAD MORE FRAGRANCES</a>
+    <a href="#" id="loadMore" style="font-family: Arial, sans-serif;font-size: 28px;margin-top: 20px;font-weight: normal;color: #656263;">LOAD MORE FRAGRANCES</a>
 </section>
 
 <section class="alphabet-section">
@@ -594,24 +626,20 @@
         <table class="flexible-table" style="text-align: left; font-weight: bold; font-size: 30px;">
             <tr>
                 @foreach (range('A', 'Z') as $letter)
-                    <td><a href="javascript:void(0)" class="alphabet" onclick="filterByLetter('{{ $letter }}', this)">{{ $letter }}</a></td>
+                    <td style="width : 30px;"><a href="javascript:void(0)" class="alphabet alphabet-filter" onclick="filterByLetter('{{ $letter }}', this)">{{ $letter }}</a></td>
                 @endforeach
             </tr>
         </table>
     </div>
-
-    <!-- Menampilkan daftar kategori -->
-    <div class="list-category">
-        <table class="flexible-table">
-            @foreach ($categories as $letter => $items)
-                <tr class="category-row" data-letter="{{ $letter }}">
-                    <td rowspan="2" class="space-table">{{ $letter }}</td>
-                    @foreach ($items as $category)
-                        <td style="vertical-align: bottom;">{{ $category->categories_name }}</td>
-                    @endforeach
-                </tr>
-            @endforeach
-        </table>
+    <div class="list-grid">
+        @foreach ($categories as $letter => $items)
+            <div class="alphabet-grid" data-letter="{{ $letter }}">
+                <p style="font-size: 80px; margin: 0;">{{ $letter }}</p>
+                @foreach ($items as $category)
+                    <p style="font-size: 14px; color: #a5a3a4; align-content: end;">{{ ucwords(strtolower($category->categories_name)) }}</p>
+                @endforeach
+            </div>
+        @endforeach
     </div>
 </section>
 
@@ -626,6 +654,9 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
+        let url = new URL(window.location.href);
+        url.searchParams.delete('params');
+        window.history.replaceState({}, document.title, url);
         function formatOption(option) {
             if (!option.id) {
                 return option.text;
@@ -661,6 +692,9 @@
             },
             placeholder: 'Search for a perfume by name or category',
             escapeMarkup: function (markup) { return markup; }
+        }).on('select2:select', function (e) {
+            var selectedValue = e.params.data.id;
+            window.location.href = '/?params=' + selectedValue;
         });
     });
     $(document).ready(function(){
@@ -676,12 +710,19 @@
             nextArrow: '<button type="button" class="slick-next">Next</button>'
         });
     });
-    
-</script>
-<script>
+
+    $(document).ready(function(){
+        var rows = document.querySelectorAll('.category-row');
+        rows.forEach(function(row) {
+            row.style.display = 'none';
+        });
+        var filter = $('.alphabet-filter')
+        filterByLetter('A', filter)
+    });
+
     function filterByLetter(letter, element) {
         // Filter rows
-        var rows = document.querySelectorAll('.category-row');
+        var rows = document.querySelectorAll('.alphabet-grid');
         rows.forEach(function(row) {
             if (row.getAttribute('data-letter') === letter) {
                 row.style.display = '';
@@ -697,22 +738,16 @@
         });
         element.classList.add('active');
     }
-</script>
-<script>
     $(document).ready(function(){
-  $(".not").slice(0, 9).show();
-  $("#loadMore").on("click", function(e){
-    e.preventDefault();
-    $(".not:hidden").slice(0, 9).slideDown();
-    if($(".not:hidden").length == 0) {
-      $("#loadMore").text("No Content").addClass("noContent");
-    }
-  });
-  
-})
-
-</script>
-<script>
+        $(".not").slice(0, 9).show();
+        $("#loadMore").on("click", function(e){
+            e.preventDefault();
+            $(".not:hidden").slice(0, 9).slideDown();
+            if($(".not:hidden").length == 0) {
+                $("#loadMore").text("No Content").addClass("noContent");
+            }
+        });
+    })
     function closeModal(n) {
         var modal = $("#myModal"+n);
         var slides = $("#mySlides"+n);
