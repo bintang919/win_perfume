@@ -28,18 +28,28 @@ class LandingPageController extends Controller
 
     public function getProduct(Request $request)
     {
+        $params = $request->get('q');
         $categories = Category::where('is_deleted', 0)
                     ->where('is_active', 1)
                     ->orderBy('categories_name')
-                    ->with(['products' => function ($query) {
+                    ->with(['products' => function ($query) use ($params) {
                         $query->where('is_deleted', 0)
-                            ->where('is_active', 1)
-                            ->orderBy('product_name');
+                              ->where('is_active', 1)
+                              ->orderBy('product_name');
+                
+                        if (isset($params)) {
+                            $query->where(function ($query) use ($params) {
+                                $query->where('product_name', 'like', '%' . $params . '%')
+                                      ->orWhereHas('category', function ($query) use ($params) {
+                                          $query->where('categories_name', 'like', '%' . $params . '%');
+                                      });
+                            });
+                        }
                     }])
                     ->get()
                     ->map(function ($category) {
                         return [
-                            'text' => $category->categories_name,
+                            'text' => ucwords(strtolower($category->categories_name)),
                             'children' => $category->products->map(function ($product) {
                                 return [
                                     'id' => $product->product_id,

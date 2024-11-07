@@ -22,8 +22,7 @@
         <img src="{{asset('assets/img/logo.png')}}" alt="Perfume Store Logo"  style="max-width: 120px; max-height: 120px;">
     </div>
     <div class="search-bar">
-        <select id="search-perfume" style="width: 100%;" placeholder="Search for a perfume by name or brand"></select>
-        <i class="fas fa-search"></i>
+        <select id="search-perfume" style="width: 100%;" placeholder="Search For A Perfume By Name Or Category"></select>
     </div>
 </header>
 
@@ -50,9 +49,9 @@
                     <div>
                         <a  onclick="showSlides({{ $key+1 }})" style="cursor: pointer;"><p>{{ $dt->Category->categories_name }}</p>
                         <h1>{{ $dt->product_name }}</h1></a>
-                    <p style="font-size: 13px;">SHOP NOW AT :</p>
+                    <p>SHOP NOW AT :</p>
                     <div class="shop-links">
-                        <a href="{{ $dt->shopee_url }}" target="_blank"><img class="img-icon" src="{{ asset('assets/img/ICON SHOPEE.png') }}" style="margin-top: 5px;"></a>
+                        <a href="{{ $dt->shopee_url }}" target="_blank"><img class="img-icon" src="{{ asset('assets/img/ICON SHOPEE.png') }}" style="margin-top: 3px;"></a>
                         <a href="{{ $dt->tokopedia_url }}" target="_blank"><img class="img-icon "src="{{ asset('assets/img/ICON TOKOPEDIA.png') }}"></a>
                         <a href="{{ $dt->tiktok_url }}" target="_blank"><img class="img-icon" src="{{ asset('assets/img/ICON TIKTOK SHOP.png') }}"></a>
                     </div>
@@ -61,8 +60,8 @@
             </div>
             <div id="myModal{{ $key+1 }}" class="modal">
                 <div class="modal-content">
-                    <div class="mySlides{{ $key+1 }}" onclick="closeModal({{ $key+1 }})">
-                        <img src="{{ asset('storage/' . $dt->product_detail_image) }}"  style="margin-top: 235px;margin-left: 515px !important;width:45%; "></img>
+                    <div class="mySlides{{ $key+1 }}" onclick="closeModal({{ $key+1 }})" id="mySlide">
+                        <img src="{{ asset('storage/' . $dt->product_detail_image) }}"></img>
                     </div>
                 </div>
             </div>
@@ -114,12 +113,12 @@
             }
 
             let image = option.image ? `<img src="${option.image}" alt="${option.text}" style="height: 30px; margin-right: 10px;" />` : '';
-            
+            const formattedText = option.text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
             return $(`
                 <div style="display: flex; align-items: center; padding: 5px;">
                     ${image}
                     <div>
-                        <div style="font-weight: bold; font-size: 1em;">${option.text}</div>
+                        <div style="font-weight: bold; font-size: 1em;">${formattedText}</div>
                         <div style="color: #666; font-size: 0.8em;">${option.brand}</div>
                     </div>
                 </div>
@@ -141,7 +140,7 @@
                 // Menampilkan hanya nama produk (option.text) di input ketika dipilih
                 return option.text || option.id;
             },
-            placeholder: 'Search for a perfume by name or category',
+            placeholder: 'Search For A Perfume By Name Or Category',
             escapeMarkup: function (markup) { return markup; }
         }).on('select2:select', function (e) {
             var selectedValue = e.params.data.id;
