@@ -11,9 +11,14 @@ class LandingPageController extends Controller
 {
     public function index(Request $request)
     {
+        $category_id = isset($request->paramscategory) ? $request->paramscategory : null;
+        $letter = isset($request->letter) ? $request->letter : null;
         $product = Product::where('is_deleted',0)->where('is_active',1);
         if(isset($request->params)){
             $product->where('product_id',$request->params);
+        }
+        if(isset($category_id)){
+            $product->where('category_id',$category_id);
         }
         $product = $product->orderBy('product_name')->get();
         $banner = Banner::where('is_deleted',0)->where('is_active',1)->get();
@@ -23,7 +28,8 @@ class LandingPageController extends Controller
         ->groupBy(function($item) {
             return strtoupper(substr($item->categories_name, 0, 1));
         });
-        return view('landing_page',['product' => $product,'categories' => $categories,'banner' => $banner]);
+        // dd($category);
+        return view('landing_page',['product' => $product,'categories' => $categories,'banner' => $banner,'letter' => $letter]);
     }
 
     public function getProduct(Request $request)

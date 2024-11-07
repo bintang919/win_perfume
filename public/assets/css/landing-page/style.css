@@ -124,7 +124,7 @@ header {
 }
 .product-item h1 {
     margin-left: 18px;
-    font-size: 34px;
+    font-size: 31px;
     margin-bottom: 10px;
     margin-top: -15px;
 }
@@ -230,7 +230,7 @@ header {
 
 .flexible-table td {
     border: 0px solid black; /* Menambahkan border pada sel */
-    padding: 0px; /* Memberikan padding pada sel */
+    padding: 5px; /* Memberikan padding pada sel */
     height: 22px;
 }
 

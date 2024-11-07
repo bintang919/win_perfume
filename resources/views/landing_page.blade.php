@@ -73,6 +73,7 @@
 <section class="alphabet-section">
     <!-- Menampilkan huruf alfabet sebagai tombol -->
     <div>
+        <input value="{{$letter}}" id="params-letter" hidden>
         <table class="flexible-table">
             <tr>
                 @foreach (range('A', 'Z') as $letter)
@@ -86,7 +87,7 @@
             <div class="alphabet-grid" data-letter="{{ $letter }}">
                 <p class="title-alphabet">{{ $letter }}</p>
                 @foreach ($items as $category)
-                    <p style="font-size: 14px; color: #a5a3a4; align-content: end; max-width: 80%;">{{ ucwords(strtolower($category->categories_name)) }}</p>
+                    <a  href="javascript:void(0)" onclick="filterCategories('{{ $category->categories_id }}','{{ substr($category->categories_name, 0, 1) }}')" style="font-size: 14px; color: #a5a3a4; align-content: end; max-width: 80%; text-decoration:none;"><p>{{ ucwords(strtolower($category->categories_name)) }}</p></a>
                 @endforeach
             </div>
         @endforeach
@@ -106,6 +107,8 @@
     $(document).ready(function() {
         let url = new URL(window.location.href);
         url.searchParams.delete('params');
+        url.searchParams.delete('paramscategory');
+        url.searchParams.delete('letter');
         window.history.replaceState({}, document.title, url);
         function formatOption(option) {
             if (!option.id) {
@@ -167,7 +170,8 @@
             row.style.display = 'none';
         });
         var filter = $('.alphabet-filter')
-        filterByLetter('A', filter)
+        var letter = $('#params-letter').val();
+        filterByLetter(letter ? letter : 'A', filter)
     });
 
     function filterByLetter(letter, element) {
@@ -188,11 +192,14 @@
         });
         element.classList.add('active');
     }
+    function filterCategories(category, letter) {
+        window.location.href = '/?paramscategory=' + category + '&letter=' + letter;
+    }
     $(document).ready(function(){
-        $(".not").slice(0, 8).show();
+        $(".not").slice(0, 9).show();
         $("#loadMore").on("click", function(e){
             e.preventDefault();
-            $(".not:hidden").slice(0, 8).slideDown();
+            $(".not:hidden").slice(0, 9).slideDown();
             if($(".not:hidden").length == 0) {
                 $("#loadMore").text("No Content").addClass("noContent");
             }
