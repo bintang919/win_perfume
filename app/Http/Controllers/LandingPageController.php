@@ -28,7 +28,6 @@ class LandingPageController extends Controller
         ->groupBy(function($item) {
             return strtoupper(substr($item->categories_name, 0, 1));
         });
-        // dd($category);
         return view('landing_page',['product' => $product,'categories' => $categories,'banner' => $banner,'letter' => $letter]);
     }
 
